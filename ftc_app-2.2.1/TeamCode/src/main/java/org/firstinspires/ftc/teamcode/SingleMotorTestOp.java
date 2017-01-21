@@ -58,10 +58,18 @@ import com.qualcomm.robotcore.util.Range;
 public class SingleMotorTestOp extends OpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
+    static final double MAXPOS = 1.0;
+    static final double MINPOS = 0.0;
+    static final double INCREMENT = 0.05;
+    static final int TICKINC=50;
+    double lowleftposition = (MAXPOS-MINPOS)/2;
+    double upleftposition = (MAXPOS-MINPOS)/2;
+    long nextTick = System.currentTimeMillis();
 
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor armMotor1,armMotor2;
+    Servo lowerLeftArmServo, upperLeftArmServo;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -79,6 +87,9 @@ public class SingleMotorTestOp extends OpMode {
 
         armMotor1 = hardwareMap.dcMotor.get("armMotor1");
         armMotor2 = hardwareMap.dcMotor.get("armMotor2");
+
+        lowerLeftArmServo = hardwareMap.servo.get("lowerLeftArmServo");
+        upperLeftArmServo = hardwareMap.servo.get("upperLeftArmServo");
 
         rightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor2.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -135,6 +146,33 @@ public class SingleMotorTestOp extends OpMode {
             armMotor1.setPower(0.0);
             armMotor2.setPower(0.0);
         }
+
+        if (gamepad1.dpad_down) {
+            if (lowleftposition>0.0 && System.currentTimeMillis()>=nextTick) {
+                lowleftposition -= INCREMENT;
+                nextTick=System.currentTimeMillis()+TICKINC;
+            }
+        }
+        if (gamepad1.dpad_up) {
+            if (lowleftposition<1.0 && System.currentTimeMillis()>=nextTick) {
+                lowleftposition += INCREMENT;
+                nextTick=System.currentTimeMillis()+TICKINC;
+            }
+        }
+        if (gamepad1.dpad_left) {
+            if (upleftposition>0.0 && System.currentTimeMillis()>=nextTick) {
+                upleftposition -= INCREMENT;
+                nextTick=System.currentTimeMillis()+TICKINC;
+            }
+        }
+        if (gamepad1.dpad_right) {
+            if (upleftposition<1.0 && System.currentTimeMillis()>=nextTick) {
+                upleftposition += INCREMENT;
+                nextTick=System.currentTimeMillis()+TICKINC;
+            }
+        }
+        lowerLeftArmServo.setPosition(lowleftposition);
+        upperLeftArmServo.setPosition(upleftposition);
 
     }
 
