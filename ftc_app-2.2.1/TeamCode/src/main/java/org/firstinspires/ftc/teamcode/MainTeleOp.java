@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name = "Single Motor TestOp", group = "Iterative Opmode")
-public class MainTeleop extends OpMode {
+public class MainTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     // Servo constants (you can't change them once you set them)
