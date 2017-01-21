@@ -77,6 +77,8 @@ public class SingleMotorTestOp extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
+        telemetry.addData("LL Servo: ",lowerLeftArmServo.getPortNumber());
+        telemetry.addData("UL Servo: ",upperLeftArmServo.getPortNumber());
 
         /* eg: Initialize the hardware variables. Note that the strings used here as parameters
          * to 'get' must correspond to the names assigned during the robot configuration
@@ -122,6 +124,9 @@ public class SingleMotorTestOp extends OpMode {
     @Override
     public void loop() {
         telemetry.addData("Status", "Running: " + runtime.toString());
+        telemetry.addData("LL Servo Pos: ",lowerLeftArmServo.getPosition());
+        telemetry.addData("UL Servo Pos: ",upperLeftArmServo.getPosition());
+
         float left1 = gamepad1.left_stick_y;
         left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
         left1 = (float) scaleInput(left1);
