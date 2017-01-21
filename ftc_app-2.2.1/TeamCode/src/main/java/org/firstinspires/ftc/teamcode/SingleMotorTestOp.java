@@ -60,8 +60,8 @@ public class SingleMotorTestOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     static final double MAXPOS = 1.0;
     static final double MINPOS = 0.0;
-    static final double INCREMENT = 0.05;
-    static final int TICKINC=50;
+    static final double INCREMENT = 0.01;
+    static final int TICKINC=10;
     double lowleftposition = (MAXPOS-MINPOS)/2;
     double upleftposition = (MAXPOS-MINPOS)/2;
     long nextTick = System.currentTimeMillis();
