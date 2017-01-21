@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "Template: Test teleop", group = "Iterative Opmode")
+@TeleOp(name = "Test: Servo", group = "Iterative Opmode")
 //@Disabled
-public class TestTeleOp extends OpMode {
+public class ServoTestTeleOp extends OpMode {
     /*
     lowerLeftArmServo
     upperLeftArmServo
