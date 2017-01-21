@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -45,21 +46,25 @@ import com.qualcomm.robotcore.util.Range;
  * The names of OpModes appear on the menu of the FTC Driver Station.
  * When an selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
- *
+ * <p>
  * This particular OpMode just executes a basic Tank Drive Teleop for a PushBot
  * It includes all the skeletal structure that all iterative OpModes contain.
- *
+ * <p>
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Template: Test teleop", group="Iterative Opmode")  // @Autonomous(...) is the other common choice
-@Disabled
+@TeleOp(name = "Template: Test teleop", group = "Iterative Opmode")
+//@Disabled
 public class TestTeleOp extends OpMode {
+    /*
+    lowerLeftArmServo
+    upperLeftArmServo
+    lowerRightArmServo
+    upperRightArmServo
+     */
 
-    DcMotor test;
-
-    private ElapsedTime runtime = new ElapsedTime();
+    Servo test;
 
     //region init()
     /*
@@ -71,12 +76,8 @@ public class TestTeleOp extends OpMode {
     public void init() {
         // Main motors (wheels) -- reverse one of them
 
-        test = hardwareMap.dcMotor.get("test");
-        test.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        test.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        test.setTargetPosition(1120);
-
+        test = hardwareMap.servo.get("lowerLeftArmServo");
+        test.setPosition(1.0);
 
     }
     //endregion
@@ -85,28 +86,7 @@ public class TestTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        test.setPower(0.8);
-        test.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-
-        while(test.isBusy()){
-
-        }
-
-
-        test.setPower(0.0);
-
-
-        /*
-        // activates hopper motor
-        if(gamepad1.b) {
-            motorHopper.setPower(-0.5);
-        }
-        else {
-            motorHopper.setPower(0.0);
-        }
-        */
-        //endregion
     }
 
     /*
@@ -118,43 +98,6 @@ public class TestTeleOp extends OpMode {
     public void stop() {
 
     }
-
-
-    //region ScaleInput()
-    /*
-     * This method scales the joystick input so for low joystick values, the
-     * scaled value is less than linear.  This is to make it easier to drive
-     * the robot more precisely at slower speeds.
-     */
-    double scaleInput(double dVal) {
-        double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
-
-        // get the corresponding index for the scaleInput array.
-        int index = (int) (dVal * 16.0);
-
-        // index should be positive.
-        if (index < 0) {
-            index = -index;
-        }
-
-        // index cannot exceed size of array minus 1.
-        if (index > 16) {
-            index = 16;
-        }
-
-        // get value from the array.
-        double dScale = 0.0;
-        if (dVal < 0) {
-            dScale = -scaleArray[index];
-        } else {
-            dScale = scaleArray[index];
-        }
-
-        // return scaled value.
-        return dScale;
-    }
-    //endregion
 
 
 }
