@@ -57,6 +57,7 @@ public class DaNewTeleOp extends OpMode {
     // YEEEEE DC MOTORS
     DcMotor leftMotor;
     DcMotor rightMotor;
+    DcMotor centerMotor;
 
     /*
      * this is the init method, innit?
@@ -69,8 +70,8 @@ public class DaNewTeleOp extends OpMode {
          * you gotta do this. don't ask why. just DO IT.
          */
         leftMotor = hardwareMap.dcMotor.get("left motor"); // MAP ALL THE HARDWARE
-        rightMotor = hardwareMap.dcMotor.get("right motor"); // HARDWARE ALL THE MAP
-
+        rightMotor = hardwareMap.dcMotor.get("right motor"); //f HARDWARE ALL THE MAP
+        centerMotor = hardwareMap.dcMotor.get("center motor");
 
         // This thing is useful
         leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -103,15 +104,30 @@ public class DaNewTeleOp extends OpMode {
         //endregion
 
         //region WHEELS
+        // Left wheel
         float left1 = gamepad1.left_stick_y; // Left stick y
         left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
         left1 = (float) scaleInput(left1); // This scales input for some reason
         leftMotor.setPower(left1); // This sets power
 
+        // Right wheel
         float right1 = gamepad1.right_stick_y; // Right stick y
         right1 = Range.clip(right1, (float) -1.0, (float) 1.0);
         right1 = (float) scaleInput(right1); // This scales input. again.
         rightMotor.setPower(right1); // This sets power. again. but the other motor.
+
+        // Center wheels
+        double centerPower;
+        if (gamepad1.right_trigger>0.0 && gamepad1.left_trigger==0.0) {
+            centerPower=gamepad1.right_trigger;
+        }
+        else if (gamepad1.left_trigger>0.0 && gamepad1.right_trigger==0.0) {
+            centerPower=-gamepad1.left_trigger;
+        }
+        else {
+            centerPower=0.0;
+        }
+        centerMotor.setPower(centerPower);
         //endregion
     }
 
