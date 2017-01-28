@@ -63,6 +63,7 @@ public class DaNewTeleOp extends OpMode {
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor centerMotor;
+    DcMotor highMotor;
 
     /*
      * this is the init method, innit?
@@ -77,6 +78,7 @@ public class DaNewTeleOp extends OpMode {
         leftMotor = hardwareMap.dcMotor.get("left motor"); // MAP ALL THE HARDWARE
         rightMotor = hardwareMap.dcMotor.get("right motor"); //f HARDWARE ALL THE MAP
         centerMotor = hardwareMap.dcMotor.get("center motor");
+        highMotor = hardwareMap.dcMotor.get("highMotor");
 
         // This thing is useful
         leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -134,6 +136,19 @@ public class DaNewTeleOp extends OpMode {
         }
         centerMotor.setPower(centerPower);
         //endregion
+
+        // Button Clicker
+        if(gamepad1.dpad_up){
+
+            highMotor.setPower(1.0);
+        }
+        else if (gamepad1.dpad_down) {
+
+            highMotor.setPower(-1.0);
+        }
+        else {
+            highMotor.setPower(0.0);
+        }
     }
 
     /*
