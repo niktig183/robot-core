@@ -52,14 +52,15 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 // It's a teleop. It ops the tele. Simple.
-@TeleOp(name = "DaNewTeleOp", group = "Iterative Opmode")
-public class DaNewTeleOp extends OpMode {
+@TeleOp(name = "MainTeleOp", group = "Iterative Opmode")
+public class MainTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     // These things are static and final.
     // Static probably referring to static electricity.
-    static final double MAXPOS = 1.0;
-    static final double MINPOS = 0.0;
+    static final double MOTOR_FULL_POWER=1.0;
+    static final double MOTOR_LESS_POWER=0.7;
+    static final double MOTOR_POWER_OFF=0.0;
 
     // YEEEEE DC MOTORS
     DcMotor leftMotor;
@@ -114,16 +115,10 @@ public class DaNewTeleOp extends OpMode {
 
         //region WHEELS
         // Left wheel
-        float left1 = gamepad1.left_stick_y; // Left stick y
-        left1 = Range.clip(left1, (float) -1.0, (float) 1.0);
-        left1 = (float) scaleInput(left1); // This scales input for some reason
-        leftMotor.setPower(left1); // This sets power
+        leftMotor.setPower(joystickToMotorValue(gamepad1.left_stick_y)); // This sets power
 
         // Right wheel
-        float right1 = gamepad1.right_stick_y; // Right stick y
-        right1 = Range.clip(right1, (float) -1.0, (float) 1.0);
-        right1 = (float) scaleInput(right1); // This scales input. again.
-        rightMotor.setPower(right1); // This sets power. again. but the other motor.
+        rightMotor.setPower(joystickToMotorValue(gamepad1.right_stick_y)); // This sets power. again. but the other motor.
 
         // Center wheels
         double centerPower;
@@ -134,7 +129,7 @@ public class DaNewTeleOp extends OpMode {
             centerPower=-gamepad1.left_trigger;
         }
         else {
-            centerPower=0.0;
+            centerPower=MOTOR_POWER_OFF;
         }
         centerMotor.setPower(centerPower);
         //endregion
@@ -142,14 +137,14 @@ public class DaNewTeleOp extends OpMode {
         // Button Clicker
         if(gamepad1.dpad_up){
 
-            highMotor.setPower(1.0);
+            highMotor.setPower(-MOTOR_LESS_POWER);
         }
         else if (gamepad1.dpad_down) {
 
-            highMotor.setPower(-1.0);
+            highMotor.setPower(MOTOR_LESS_POWER);
         }
         else {
-            highMotor.setPower(0.0);
+            highMotor.setPower(MOTOR_POWER_OFF);
         }
     }
 
@@ -189,6 +184,11 @@ public class DaNewTeleOp extends OpMode {
 
         // return scaled value.
         return dScale;
+    }
+    double joystickToMotorValue(double joystickValue) {
+        joystickValue = Range.clip(joystickValue, (float) -1.0, (float) 1.0);
+        double scaled = scaleInput(joystickValue); // This scales input for some reason
+        return scaled;
     }
 
 }
