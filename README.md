@@ -1,5 +1,4 @@
-# TEST LINE
-# robot-core - FTC Robotics Prague
+# robot-core - FTC Robotics Prague - Mecha Falcons
 ----
 
 #  There were some major SDK updates for the new season, please read all READMEs/documentation before pushing to master.
@@ -28,15 +27,10 @@ $ git clone https://github.com/isphsrobotics/robot-core.git
 ```
 
 ## 02 - Contributors with push access
-
-* @isphsrobotics
-    * This is the account used on school computers. Any robotics member can use it, however usually it is used by Alex (insightdev).
 * @insightdev
     * Alex
-* @DanielHamill
-    * Daniel
-* @champaru
-	* Roman
+* @TomM8
+	* Tom
 
 ## 03 - Where stuff is
 
