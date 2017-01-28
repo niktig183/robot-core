@@ -60,6 +60,7 @@ public class MainTeleOp extends OpMode {
     // Static probably referring to static electricity.
     static final double MOTOR_FULL_POWER=1.0;
     static final double MOTOR_LESS_POWER=0.7;
+    static final double MOTOR_HALF_POWER=0.5;
     static final double MOTOR_POWER_OFF=0.0;
 
     // YEEEEE DC MOTORS
@@ -137,11 +138,11 @@ public class MainTeleOp extends OpMode {
         // Button Clicker
         if(gamepad1.dpad_up){
 
-            highMotor.setPower(-MOTOR_LESS_POWER);
+            highMotor.setPower(-MOTOR_HALF_POWER);
         }
         else if (gamepad1.dpad_down) {
 
-            highMotor.setPower(MOTOR_LESS_POWER);
+            highMotor.setPower(MOTOR_HALF_POWER);
         }
         else {
             highMotor.setPower(MOTOR_POWER_OFF);
