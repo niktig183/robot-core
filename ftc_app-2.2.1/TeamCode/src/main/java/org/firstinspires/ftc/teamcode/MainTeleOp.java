@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "Single Motor TestOp", group = "Iterative Opmode")
+@TeleOp(name = "TeleOp", group = "Iterative Opmode")
 public class MainTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
