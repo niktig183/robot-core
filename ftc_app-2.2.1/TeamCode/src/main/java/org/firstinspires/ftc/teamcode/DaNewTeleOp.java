@@ -47,6 +47,8 @@ import com.qualcomm.robotcore.util.Range;
  * Left wheel - left joystick
  * Right wheel - right joystick
  * Center wheel - left/right triggers
+ * Color sensor enable - X
+ * Button pusher - dpad up/down
  */
 
 // It's a teleop. It ops the tele. Simple.
@@ -76,7 +78,7 @@ public class DaNewTeleOp extends OpMode {
          * you gotta do this. don't ask why. just DO IT.
          */
         leftMotor = hardwareMap.dcMotor.get("left motor"); // MAP ALL THE HARDWARE
-        rightMotor = hardwareMap.dcMotor.get("right motor"); //f HARDWARE ALL THE MAP
+        rightMotor = hardwareMap.dcMotor.get("right motor"); // HARDWARE ALL THE MAP
         centerMotor = hardwareMap.dcMotor.get("center motor");
         highMotor = hardwareMap.dcMotor.get("highMotor");
 
