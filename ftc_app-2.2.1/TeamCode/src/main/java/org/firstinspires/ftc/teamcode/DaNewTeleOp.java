@@ -41,7 +41,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * This is Da New TeleOp. Not the old one. The old one sucked. This is Da New TeleOp.
+ * CONTROL SCHEME
+ *
+ * Gamepad 1:
+ * Left wheel - left joystick
+ * Right wheel - right joystick
+ * Center wheel - left/right triggers
  */
 
 // It's a teleop. It ops the tele. Simple.
