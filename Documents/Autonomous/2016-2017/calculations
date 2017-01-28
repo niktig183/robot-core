@@ -1,0 +1,16 @@
+wheel specs: 152 rpm, 31.9185814 cm circumference
+2.533333333 rps -> 80.860406203 cm per sec
+
+f 1m -> 1237 msec
+tr 45 deg -> 10.508404 cm arc length -> 130 msec
+f 1m -> 1237 msec
+tr 45 deg -> 10.508404 cm arc length -> 130 msec
+f 0.9 m -> 1113 msec
+(press)
+r 0.9 m -> 1113 msec
+tl 90 deg -> 71.8168081 cm arc length -> 888 msec
+f 1.2 m -> 1484 msec
+tr 90 deg -> 71.8168081 cm arc length -> 888 msec
+f 0.9 m -> 1113 msec
+(press)
+
