@@ -74,13 +74,33 @@ public class AutonomousTemplate extends LinearOpMode {
         runtime.reset();
 
         // Run the robot
+        driveF(DRIVE_POWER,1237);
+        turnRight(DRIVE_POWER,130);
+        driveF(DRIVE_POWER,1237);
+        turnRight(DRIVE_POWER,130);
+        driveF(DRIVE_POWER,1113);
+        // TODO: press
+        driveR(DRIVE_POWER,1113);
+        turnLeft(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1484);
+        turnRight(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1484);
+        turnRight(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1113);
+        // TODO: press
     }
 
-    public void drive(double power, int time) throws InterruptedException {
+    public void driveF(double power, int time) throws InterruptedException {
         leftMotor.setPower(power);
         rightMotor.setPower(power);
         Thread.sleep(time);
     }
+    public void driveR(double power, int time) throws InterruptedException {
+        leftMotor.setPower(-power);
+        rightMotor.setPower(-power);
+        Thread.sleep(time);
+    }
+
     public void turnLeft(double power, int time) throws InterruptedException {
         rightMotor.setPower(power);
         leftMotor.setPower(-power);
@@ -93,4 +113,5 @@ public class AutonomousTemplate extends LinearOpMode {
         leftMotor.setPower(0.0);
         rightMotor.setPower(0.0);
     }
+
 }
