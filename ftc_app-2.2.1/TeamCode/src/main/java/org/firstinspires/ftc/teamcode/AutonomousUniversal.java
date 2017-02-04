@@ -66,9 +66,9 @@ public class AutonomousUniversal extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        leftMotor = null; // TODO: Set these
-        rightMotor = null;
-        rightMotor.setDirection(DcMotor.Direction.REVERSE); // TODO: idk which one to reverse
+        leftMotor = hardwareMap.dcMotor.get("left motor");
+        rightMotor = hardwareMap.dcMotor.get("right motor");
+        leftMotor.setDirection(DcMotor.Direction.REVERSE); // TODO: idk which one to reverse
 
         waitForStart();
         runtime.reset();
