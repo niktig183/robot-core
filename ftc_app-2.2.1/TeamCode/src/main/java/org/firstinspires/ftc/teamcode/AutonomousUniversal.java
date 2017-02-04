@@ -32,12 +32,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -52,68 +52,66 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Test Autonomous", group="Autonomous")
-@Disabled
-public class TestAutonomous extends LinearOpMode {
+
+@Autonomous(name="AutonomousUniversal Template", group="AutonomousUniversal")
+public class AutonomousUniversal extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
-    DcMotor leftMotor = null;
-    DcMotor rightMotor = null;
-
-    int target = 7213;
-    int startPositionL;
-    int startPositionR;
+    DcMotor leftMotor;
+    DcMotor rightMotor;
+    static final double DRIVE_POWER = 1.0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        leftMotor = null; // TODO: Set these
+        rightMotor = null;
+        rightMotor.setDirection(DcMotor.Direction.REVERSE); // TODO: idk which one to reverse
 
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
-        leftMotor  = hardwareMap.dcMotor.get("lMotor");
-        rightMotor = hardwareMap.dcMotor.get("rMotor");
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
-        startPositionL = leftMotor.getCurrentPosition();
-        startPositionR = rightMotor.getCurrentPosition();
-
-        // eg: Set the drive motor directions:
-        // "Reverse" the motor that runs backwards when connected directly to the battery
-        //leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses `)
-        while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
-            if(leftMotor.isBusy() && rightMotor.isBusy()){
-
-            }
-            else {
-                sleep(500);
-                leftMotor.setPower(0.5);
-                rightMotor.setPower(0.5);
-                leftMotor.setTargetPosition(target + startPositionL);
-                rightMotor.setTargetPosition(target + startPositionR);
-            }
-            while(leftMotor.isBusy() && rightMotor.isBusy()){
-            }
-            leftMotor.setPower(0.0);
-            rightMotor.setPower(0.0);
-
-
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
+        // Run the robot
+        driveF(DRIVE_POWER,1237);
+        turnRight(DRIVE_POWER,130);
+        driveF(DRIVE_POWER,1237);
+        turnRight(DRIVE_POWER,130);
+        driveF(DRIVE_POWER,1113);
+        // TODO: press
+        driveR(DRIVE_POWER,1113);
+        turnLeft(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1484);
+        turnRight(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1484);
+        turnRight(DRIVE_POWER,888);
+        driveF(DRIVE_POWER,1113);
+        // TODO: press
     }
+
+    public void driveF(double power, int time) throws InterruptedException {
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
+        Thread.sleep(time);
+    }
+    public void driveR(double power, int time) throws InterruptedException {
+        leftMotor.setPower(-power);
+        rightMotor.setPower(-power);
+        Thread.sleep(time);
+    }
+
+    public void turnLeft(double power, int time) throws InterruptedException {
+        rightMotor.setPower(power);
+        leftMotor.setPower(-power);
+        Thread.sleep(time);
+    }
+    public void turnRight(double power, int time) throws InterruptedException {
+        turnLeft(-power,time);
+    }
+    public void stopDriving() {
+        leftMotor.setPower(0.0);
+        rightMotor.setPower(0.0);
+    }
+
 }
