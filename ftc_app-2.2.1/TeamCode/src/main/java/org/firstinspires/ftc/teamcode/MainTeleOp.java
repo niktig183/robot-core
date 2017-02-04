@@ -55,51 +55,59 @@ import com.qualcomm.robotcore.util.Range;
 public class MainTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    // These things are static and final.
-    // Static probably referring to static electricity.
+    // These are constants, once you set them you cannot change them
+    // Nice for settings things like motor power
+    // This way you can use names instead of "magic numbers"
     static final double MOTOR_FULL_POWER=1.0;
     static final double MOTOR_LESS_POWER=0.7;
     static final double MOTOR_HALF_POWER=0.5;
     static final double MOTOR_POWER_OFF=0.0;
 
-    // YEEEEE DC MOTORS
+    // Defining your motors - DcMotor is a class provided by the FTC SDK (software dev kit)
     DcMotor leftMotor;
     DcMotor rightMotor;
     DcMotor centerMotor;
     DcMotor highMotor;
 
+    // Similarly, if you wanted to define a servo, you would put:
+    // Servo servoName;
+    // The servoName can be anything you want, it's a variable
 
 
     /*
-     * this is the init method, innit?
+     * This runs when the driver station "init" button is pressed
      */
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
 
         /*
-         * you gotta do this. don't ask why. just DO IT.
+         * Use hardwareMap.dcMotor.get() to map the variable initialized above to the motor.
+         * The argument in quotes is the name of the motor. You set this in the robot profile
+         * on the robot controller phone.
          */
         leftMotor = hardwareMap.dcMotor.get("left motor"); // MAP ALL THE HARDWARE
         rightMotor = hardwareMap.dcMotor.get("right motor"); // HARDWARE ALL THE MAP
         centerMotor = hardwareMap.dcMotor.get("center motor");
         highMotor = hardwareMap.dcMotor.get("highMotor");
 
-        // This thing is useful
+        // You have to reverse one motor, otherwise a power value of 1.0 would make the motors run
+        // in different directions. This just makes it more convenient, so you don't have to use 1.0
+        // for one motor and -1.0 for the other motor.
         leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }
 
     /*
-     * this is most certainly not the init method
+     * This runs after the "init" button is pressed but before the "play" button is pressed
      */
     @Override
     public void init_loop() {
     }
 
     /*
-     * start. not end.
+     * This runs when the "play" button is pressed on the driver station
      */
     @Override
     public void start() {
@@ -107,23 +115,40 @@ public class MainTeleOp extends OpMode {
     }
 
     @Override
-    // This method loops. and loops. and loops. and loops. and loops. and loops. and loops.
+    // This runs after the "play" button is pressed and before the "stop" button is pressed
     public void loop() {
         // If you put the cursor on a comment that says "region" and press command-minus, you can collapse the code
 
         //region Telemetry
-        // This is the metry of the tele
+        // Telemetry == stuff that shows up on the driver station phone screen
         telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("Wheels", "l: " + leftMotor.getPower() + " r: " + rightMotor.getPower());
         //endregion
 
         //region WHEELS
+
+        /*
+        * Left/right wheels use the joystickToMotorValue method.
+        * It first clips the joystick value so that it's between -1.0 and 1.0,
+        * then it scales the input so you still get precision control.
+        * Finally, setPower() writes the value to the motor.
+         */
+
         // Left wheel
         leftMotor.setPower(joystickToMotorValue(gamepad1.left_stick_y)); // This sets power
 
         // Right wheel
         rightMotor.setPower(joystickToMotorValue(gamepad1.right_stick_y)); // This sets power. again. but the other motor.
 
+        /*
+        * The center wheel works differently, it reads values from triggers.
+        * Triggers are by default in a range of 0.0 (not pressed) to 1.0 (fully pressed).
+        * So we don't have to scale or clip anything.
+        * All we're doing is checking if only one trigger is pressed, and then setting the value
+        * of that trigger to a variable centerPower. If both triggers are pressed, that centerPower
+        * becomes 0.0 (i.e. if you press both triggers, the motor does nothing).
+        * Finally, we use setPower() to write the value in the variable to the motor.
+         */
         // Center wheels
         double centerPower;
         if (gamepad1.right_trigger>0.0 && gamepad1.left_trigger==0.0) {
@@ -139,6 +164,9 @@ public class MainTeleOp extends OpMode {
         //endregion
 
         //region Button Clicker
+        // We're reading the value from buttons, which are true (pressed) or false (not pressed)
+        // Using MOTOR_HALF_POWER so that it doesn't run too quickly. If neither dpad_up or dpad_down
+        // is pressed, the motor is off.
         if(gamepad1.dpad_up){
 
             highMotor.setPower(-MOTOR_HALF_POWER);
@@ -155,14 +183,13 @@ public class MainTeleOp extends OpMode {
     }
 
     /*
-     * Code to run ONCE after the driver hits STOP
+     * This runs once after the stop button is pressed on the driver station
      */
     @Override
     public void stop() {
     }
 
-    // I don't know why this is here.
-    // The comments in the method are not mine, that's why they're useless
+    // This scales the input so that we maintain precision control
     double scaleInput(double dVal) {
         double[] scaleArray = {0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
                 0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00};
@@ -191,6 +218,8 @@ public class MainTeleOp extends OpMode {
         // return scaled value.
         return dScale;
     }
+
+    // This clips the values from the joystick so that they can be used for the motor.
     double joystickToMotorValue(double joystickValue) {
         joystickValue = Range.clip(joystickValue, (float) -1.0, (float) 1.0);
         double scaled = scaleInput(joystickValue); // This scales input for some reason
